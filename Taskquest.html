@@ -4,55 +4,128 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaskQuest</title>
-    <link rel="stylesheet" href="assets/Taskqueststyles.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body>
-    <!-- Sidebar -->
+    <!-- ---------- SIDEBAR ---------- -->
     <div class="sidebar">
       <div class="sidebar-header">Workspace</div>
-      <div class="sidebar-item active">
+      <div class="sidebar-item active" data-page="tasks">
         <span class="icon">📝</span>
-        <span>Quick Notes</span>
+        <span>Tasks</span>
       </div>
-      <div class="sidebar-item">
-        <span class="icon">📚</span>
-        <span>Personal</span>
-      </div>
-      <div class="sidebar-item">
-        <span class="icon">💼</span>
-        <span>Work</span>
-      </div>
-      <div class="sidebar-item">
+      <div class="sidebar-item" data-page="goals">
         <span class="icon">🎯</span>
         <span>Goals</span>
       </div>
-      <div class="sidebar-item">
+      <div class="sidebar-item" data-page="shopping">
         <span class="icon">🛒</span>
         <span>Shopping</span>
       </div>
+      <div class="sidebar-item" data-page="quick">
+        <span class="icon">🗒️</span>
+        <span>Quick Note</span>
+      </div>
     </div>
-    <!-- Main Content -->
+
+    <!-- ---------- MAIN CONTENT ---------- -->
     <div class="main-content">
       <!-- Toolbar -->
       <div class="toolbar">
         <div class="toolbar-actions">
-          <button class="toolbar-button">Share</button>
-          <button class="toolbar-button">Export</button>
-          <button class="toolbar-button">•••</button>
+          <button class="toolbar-button" id="exportBtn">Export</button>
+          <button class="toolbar-button" id="clearBtn">Clear Data</button>
         </div>
       </div>
 
-      <!-- Note Editor -->
-      <div class="note-editor">
-        <input type="text" class="note-title" placeholder="Untitled" />
+      <!-- Tasks Page -->
+      <div class="page active" id="tasksPage">
+        <h1>My Tasks</h1>
+        <ul class="task-list" id="tasksList"></ul>
+        <p class="empty-state" id="tasksEmpty">
+          No tasks yet. Click “＋” to add one.
+        </p>
+      </div>
+
+      <!-- Quick Note Page -->
+      <div class="page" id="quickPage">
+        <input
+          type="text"
+          class="note-title"
+          id="noteTitle"
+          placeholder="Untitled"
+        />
         <div
           class="note-content"
+          id="noteContent"
           contenteditable="true"
           placeholder="Type '/' for commands or start writing..."
         ></div>
       </div>
+
+      <!-- Goals Page -->
+      <div class="page" id="goalsPage">
+        <h1>Goals</h1>
+        <ul class="task-list" id="goalsList"></ul>
+        <p class="empty-state" id="goalsEmpty">
+          No goals yet. Click “＋” to add one.
+        </p>
+      </div>
+
+      <!-- Shopping Page -->
+      <div class="page" id="shoppingPage">
+        <h1>Shopping List</h1>
+        <ul class="task-list" id="shoppingList"></ul>
+        <p class="empty-state" id="shoppingEmpty">
+          No items yet. Click “＋” to add one.
+        </p>
+      </div>
     </div>
+
     <!-- Floating Action Button -->
-    <div class="fab">+</div>
+    <div class="fab" id="fab">+</div>
+
+    <!-- Item Modal -->
+    <div class="modal-overlay" id="itemModal">
+      <div class="modal">
+        <h2 id="modalTitle">New Item</h2>
+        <label>
+          Title
+          <input type="text" id="itemTitle" />
+        </label>
+        <label id="deadlineRow">
+          Deadline
+          <input type="date" id="itemDeadline" />
+        </label>
+        <label id="priorityRow">
+          Priority
+          <select id="itemPriority">
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+          </select>
+        </label>
+        <div class="modal-actions">
+          <button id="modalCancel">Cancel</button>
+          <button id="modalSave">Save</button>
+        </div>
+      </div>
+    </div>
+    <!-- Account / login modal -->
+    <div class="modal-overlay" id="accountModal">
+      <div class="modal">
+        <h2>Who’s using TaskQuest?</h2>
+        <label
+          >User name
+          <input type="text" id="userNameInput" placeholder="e.g. mo123" />
+        </label>
+        <div class="modal-actions">
+          <button id="acctCancel">Cancel</button>
+          <button id="acctSave">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/script.js"></script>
   </body>
 </html>
