@@ -45,19 +45,27 @@ function renderList(page) {
   data[page].forEach((item) => {
     const li = document.createElement("li");
     li.className = "task-item";
+    let exclamations = "";
+    if (page === "tasks") {
+      if (item.priority === "High") {
+        exclamations = '<span class="exclamations">❗❗</span>';
+      } else if (item.priority === "Medium") {
+        exclamations = '<span class="exclamations">❗</span>';
+      }
+    }
 
     const info = document.createElement("div");
     info.className = "task-info";
     info.innerHTML = `
-       <span class="task-title">${item.title}</span>
-       ${
-         page !== "shopping"
-           ? `<span class="task-meta">${formatDate(
-               item.deadline
-             )} · Priority: ${item.priority}</span>`
-           : ""
-       }
-     `;
+  <span class="task-title">${item.title}</span>
+  ${
+    page !== "shopping"
+      ? `<span class="task-meta">${formatDate(item.deadline)} · Priority: ${
+          item.priority
+        } ${exclamations}</span>`
+      : ""
+  }
+`;
 
     const actions = document.createElement("div");
     actions.className = "task-actions";
