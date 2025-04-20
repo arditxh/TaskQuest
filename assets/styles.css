@@ -277,3 +277,58 @@ h1 {
 .modal-actions button:hover {
   opacity: 0.9;
 }
+
+/* ----------- GAMIFICATION ----------- */
+.gamification-status {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  align-items: flex-end;
+  font-size: 14px;
+  gap: 4px;
+}
+
+#xpDisplay {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.badge-display {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 16px;
+}
+
+/* ----------- DARK MODE ----------- */
+body.dark {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark .main-content,
+body.dark .page {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+body.dark .task-item {
+  background-color: #333;
+  border-color: #444;
+}
+
+body.dark .toolbar,
+body.dark .sidebar {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark .toolbar-button,
+body.dark .sidebar-item {
+  color: #f0f0f0;
+}
+
+body.dark .sidebar-item.active {
+  background-color: #444;
+}
+

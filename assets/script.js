@@ -5,7 +5,38 @@ let data = {
   goals: [],
   shopping: [],
   note: { title: "", content: "" },
+  profile: {
+    xp: 0,
+    badges: [],
+    rewards: []
+  }
 };
+
+const badgeCriteria = [
+  {
+    id: "firstTask",
+    name: "First Task Done!",
+    condition: data => data.profile.xp >= 5
+  },
+  {
+    id: "taskMaster",
+    name: "Task Master",
+    condition: data => data.profile.xp >= 100
+  }
+];
+
+const rewardCriteria = [
+  {
+    id: "darkMode",
+    name: "Dark Mode Theme",
+    condition: data => data.profile.xp >= 50
+  },
+  {
+    id: "goldenBadge",
+    name: "Golden Badge Set",
+    condition: data => data.profile.badges.length >= 2
+  }
+];
 
 function loadData() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -70,14 +101,18 @@ function renderList(page) {
     const actions = document.createElement("div");
     actions.className = "task-actions";
     actions.innerHTML = `
+       <button title="Complete">✅</button>
        <button title="Edit">✏️</button>
        <button title="Delete">🗑️</button>
      `;
 
     actions.children[0].addEventListener("click", () =>
-      openModal(page, item.id)
+      completeTask(item.id)
     );
     actions.children[1].addEventListener("click", () =>
+      openModal(page, item.id)
+    );
+    actions.children[2].addEventListener("click", () =>
       deleteItem(page, item.id)
     );
 
@@ -86,13 +121,30 @@ function renderList(page) {
     listEl.appendChild(li);
   });
   toggleEmptyState(page);
+  renderGamification();
 }
 
 function renderAll() {
   ["tasks", "goals", "shopping"].forEach(renderList);
-  // note
   document.getElementById("noteTitle").value = data.note.title;
   document.getElementById("noteContent").innerHTML = data.note.content;
+  renderGamification();
+
+  // ✅ Apply dark mode if reward was unlocked
+  if (data.profile.rewards.includes("darkMode")) {
+    enableDarkMode();
+  }
+}
+
+
+function renderGamification() {
+  const xpEl = document.getElementById("xpDisplay");
+  const badgeEl = document.getElementById("badgeDisplay");
+  xpEl.textContent = `XP: ${data.profile.xp}`;
+  badgeEl.innerHTML = data.profile.badges.map(id => `🏅 ${id}`).join(" ");
+}
+function enableDarkMode() {
+  document.body.classList.add("dark");
 }
 
 /* ------------------------ CRUD via MODAL ------------------------ */
@@ -173,6 +225,43 @@ function deleteItem(page, id) {
   renderList(page);
 }
 
+function completeTask(id) {
+  const task = data.tasks.find(t => t.id === id);
+  if (!task) return;
+
+  let xpGained = 0;
+  if (task.priority === "Low") xpGained = 5;
+  else if (task.priority === "Medium") xpGained = 10;
+  else if (task.priority === "High") xpGained = 20;
+
+  data.profile.xp += xpGained;
+  checkBadgesAndRewards();
+  checkRewards();
+  data.tasks = data.tasks.filter(t => t.id !== id);
+  saveData();
+  renderList("tasks");
+}
+
+function checkBadgesAndRewards() {
+  badgeCriteria.forEach(badge => {
+    if (!data.profile.badges.includes(badge.id) && badge.condition(data)) {
+      data.profile.badges.push(badge.id);
+      alert(`🎉 New Badge Unlocked: ${badge.name}!`);
+    }
+  });
+}
+
+function checkRewards() {
+  rewardCriteria.forEach(reward => {
+    if (!data.profile.rewards.includes(reward.id) && reward.condition(data)) {
+      data.profile.rewards.push(reward.id);
+      alert(`🎁 New Reward Unlocked: ${reward.name}!`);
+      if (reward.id === "darkMode") enableDarkMode(); // ⬅️ apply dark mode
+    }
+  });
+}
+
+
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -233,6 +322,11 @@ document.getElementById("clearBtn").addEventListener("click", () => {
       goals: [],
       shopping: [],
       note: { title: "", content: "" },
+      profile: {
+        xp: 0,
+        badges: [],
+        rewards: []
+      }
     };
     renderAll();
   }
