@@ -52,6 +52,25 @@ signupBtn.addEventListener("click", async () => {
   }
 });
 
+// Google OAuth Provider
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+// Sign in with Google
+function signInWithGoogle() {
+  auth.signInWithPopup(googleProvider)
+    .then((result) => {
+      const user = result.user;
+      console.log("✅ Google sign-in successful:", user.email);
+      document.getElementById("accountModal").style.display = "none";
+      // Optionally, load user tasks here
+    })
+    .catch((error) => {
+      console.error("Google sign-in error:", error.message);
+      alert("Google sign-in failed: " + error.message);
+    });
+}
+
+
 // Auth state listener
 auth.onAuthStateChanged(user => {
   if (user) {

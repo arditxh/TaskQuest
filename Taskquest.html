@@ -129,24 +129,40 @@
         </div>
       </div>
     </div>
-    <!-- 🔐 New Auth Modal -->
-<div class="modal-overlay" id="accountModal">
-  <div class="modal">
-    <h2>Welcome to TaskQuest</h2>
-    <label>
-      Email
-      <input type="email" id="authEmail" placeholder="you@example.com" />
-    </label>
-    <label>
-      Password
-      <input type="password" id="authPassword" placeholder="Enter password" />
-    </label>
-    <div class="modal-actions">
-      <button id="loginBtn">Log In</button>
-      <button id="signupBtn">Create Account</button>
+    <!-- 🔐 Auth Modal -->
+    <div class="modal-overlay" id="accountModal">
+      <div class="modal">
+        <h2>Welcome to TaskQuest</h2>
+    
+        <!-- 📧 Email/Password Auth -->
+        <div class="auth-fields">
+          <label>
+            Email
+            <input type="email" id="authEmail" placeholder="you@example.com" />
+          </label>
+          <label>
+            Password
+            <input type="password" id="authPassword" placeholder="Enter password" />
+          </label>
+          <div class="auth-buttons">
+            <button id="loginBtn">Log In</button>
+            <button id="signupBtn">Create Account</button>
+          </div>
+        </div>
+    
+        <!-- Divider -->
+        <hr style="margin: 16px 0;" />
+    
+        <!-- 🔐 Google Sign-In -->
+        <div class="oauth-buttons">
+          <button class="google-btn" onclick="signInWithGoogle()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" />
+            Sign in with Google
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
 
 
     <script src="assets/script.js"></script>

@@ -17,6 +17,33 @@ h1 {
   font-size: 24px;
   margin-bottom: 16px;
 }
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: white;
+  border: 1px solid #dadce0;
+  color: #3c4043;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.google-btn:hover {
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3), 
+              0 4px 8px rgba(60, 64, 67, 0.15);
+}
+
+.google-btn img {
+  width: 18px;
+  height: 18px;
+}
+
 
 /* ----------- SIDEBAR ----------- */
 .sidebar {
@@ -276,6 +303,51 @@ h1 {
 
 .modal-actions button:hover {
   opacity: 0.9;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-fields label {
+  width: 100%;
+  font-size: 14px;
+}
+
+.auth-fields input {
+  padding: 6px 8px;
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.auth-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.auth-buttons button {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background-color: #f0f0f0;
+}
+
+.auth-buttons button:hover {
+  background-color: #e0e0e0;
 }
 
 /* ----------- GAMIFICATION ----------- */
