@@ -1,3 +1,109 @@
+// Make sure the Firebase SDKs are already loaded in your HTML <head>:
+// - firebase-app.js
+// - firebase-auth.js
+// - firebase-firestore.js
+
+// ✅ Firebase config (you already copied this correctly)
+const firebaseConfig = {
+  apiKey: "AIzaSyABUVEc_3zvLLxPZCo5cA2yToQ6nOOyjkE",
+  authDomain: "taskquest-5561f.firebaseapp.com",
+  projectId: "taskquest-5561f",
+  storageBucket: "taskquest-5561f.appspot.com",
+  messagingSenderId: "297466771120",
+  appId: "1:297466771120:web:3dbd16281be60c3fe56d75",
+  measurementId: "G-Q8HHF7LJLF"
+};
+
+// ✅ Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// ✅ Initialize Firestore and Auth using global firebase object
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// DOM elements
+const authModal = document.getElementById("accountModal");
+const emailInput = document.getElementById("authEmail");
+const passwordInput = document.getElementById("authPassword");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
+
+// Login
+loginBtn.addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    console.log("✅ Logged in as:", email);
+  } catch (err) {
+    alert("Login failed: " + err.message);
+  }
+});
+
+// Signup
+signupBtn.addEventListener("click", async () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+    console.log("✅ Account created for:", email);
+  } catch (err) {
+    alert("Signup failed: " + err.message);
+  }
+});
+
+// Auth state listener
+auth.onAuthStateChanged(user => {
+  if (user) {
+    authModal.style.display = "none";
+    console.log("🔐 User is logged in:", user.email);
+    // Optional: load tasks for user here
+  } else {
+    authModal.style.display = "flex";
+  }
+});
+
+
+// Firebase auth functions
+function signup(email, password) {
+  return auth.createUserWithEmailAndPassword(email, password);
+}
+
+function login(email, password) {
+  return auth.signInWithEmailAndPassword(email, password);
+}
+
+// Listen for login state changes
+auth.onAuthStateChanged(async (user) => {
+  const modal = document.getElementById("accountModal");
+  if (user) {
+    modal.style.display = "none";
+    const tasks = await loadTasksFromDB(user.uid);
+    data.tasks = tasks;
+    renderList("tasks");
+  } else {
+    modal.style.display = "flex";
+    data.tasks = [];
+    renderList("tasks");
+  }
+});
+
+
+async function loadTasksFromDB(uid) {
+  const snapshot = await db.collection("users").doc(uid).collection("tasks").get();
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+async function saveTaskToDB(uid, task) {
+  await db.collection("users").doc(uid).collection("tasks").doc(task.id).set(task);
+}
+
+async function deleteTaskFromDB(uid, taskId) {
+  await db.collection("users").doc(uid).collection("tasks").doc(taskId).delete();
+}
+
+
+
 /* ------------------------ DATA ------------------------ */
 const STORAGE_KEY = "taskquest-data-v2";
 let data = {
@@ -192,7 +298,7 @@ function closeModal() {
 
 document.getElementById("modalCancel").addEventListener("click", closeModal);
 
-document.getElementById("modalSave").addEventListener("click", () => {
+document.getElementById("modalSave").addEventListener("click", async () => {
   const title = titleInput.value.trim();
   if (!title) {
     alert("Title is required");
@@ -211,6 +317,10 @@ document.getElementById("modalSave").addEventListener("click", () => {
     if (currentPage !== "shopping") newItem.deadline = deadline;
     if (currentPage === "tasks") newItem.priority = priority;
     data[currentPage].push(newItem);
+if (auth.currentUser && currentPage === "tasks") {
+  await saveTaskToDB(auth.currentUser.uid, newItem);
+}
+
   }
 
   saveData();
@@ -218,12 +328,16 @@ document.getElementById("modalSave").addEventListener("click", () => {
   closeModal();
 });
 
-function deleteItem(page, id) {
+async function deleteItem(page, id) {
   if (!confirm("Delete this item?")) return;
   data[page] = data[page].filter((t) => t.id !== id);
+  if (auth.currentUser && page === "tasks") {
+    await deleteTaskFromDB(auth.currentUser.uid, id);
+  }
   saveData();
   renderList(page);
 }
+
 
 function completeTask(id) {
   const task = data.tasks.find(t => t.id === id);
@@ -331,6 +445,53 @@ document.getElementById("clearBtn").addEventListener("click", () => {
     renderAll();
   }
 });
+const acctModal = document.getElementById("accountModal");
+const userNameInput = document.getElementById("userNameInput");
+const acctCancel = document.getElementById("acctCancel");
+const acctSave = document.getElementById("acctSave");
+
+// Temporary password logic for simplicity (you can improve this later)
+const DEFAULT_PASSWORD = "taskquest123";
+
+acctCancel.addEventListener("click", () => {
+  acctModal.style.display = "none";
+});
+
+acctSave.addEventListener("click", async () => {
+  const email = userNameInput.value.trim();
+  const password = DEFAULT_PASSWORD;
+
+  if (!email.includes("@")) {
+    alert("Please enter a valid email (e.g. user@example.com)");
+    return;
+  }
+
+  try {
+    // Attempt login
+    await login(email, password);
+  } catch (err) {
+    if (err.code === "auth/user-not-found") {
+      // User doesn't exist: create it
+      try {
+        await signup(email, password);
+        console.log("✅ Account created for", email);
+      } catch (signupError) {
+        console.error("Signup failed:", signupError.message);
+        alert("Signup failed: " + signupError.message);
+      }
+    } else if (err.code === "auth/wrong-password") {
+      alert("Password is incorrect for this account.");
+    } else if (err.code === "auth/invalid-email") {
+      alert("That’s not a valid email address.");
+    } else {
+      console.error(err);
+      alert("Login failed: " + err.message);
+    }
+  }
+});
+
+
+
 
 /* ------------------------ INIT ------------------------ */
 loadData();

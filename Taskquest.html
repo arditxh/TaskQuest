@@ -5,7 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaskQuest</title>
     <link rel="stylesheet" href="assets/styles.css" />
+  
+   <!-- Firebase SDK (with compat layer) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
+
+
+
+
   </head>
+  
   <body>
     <!-- ---------- SIDEBAR ---------- -->
     <div class="sidebar">
@@ -118,20 +129,25 @@
         </div>
       </div>
     </div>
-    <!-- Account / login modal -->
-    <div class="modal-overlay" id="accountModal">
-      <div class="modal">
-        <h2>Who’s using TaskQuest?</h2>
-        <label
-          >User name
-          <input type="text" id="userNameInput" placeholder="e.g. mo123" />
-        </label>
-        <div class="modal-actions">
-          <button id="acctCancel">Cancel</button>
-          <button id="acctSave">Continue</button>
-        </div>
-      </div>
+    <!-- 🔐 New Auth Modal -->
+<div class="modal-overlay" id="accountModal">
+  <div class="modal">
+    <h2>Welcome to TaskQuest</h2>
+    <label>
+      Email
+      <input type="email" id="authEmail" placeholder="you@example.com" />
+    </label>
+    <label>
+      Password
+      <input type="password" id="authPassword" placeholder="Enter password" />
+    </label>
+    <div class="modal-actions">
+      <button id="loginBtn">Log In</button>
+      <button id="signupBtn">Create Account</button>
     </div>
+  </div>
+</div>
+
 
     <script src="assets/script.js"></script>
   </body>
