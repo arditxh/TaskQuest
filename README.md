@@ -82,6 +82,10 @@ Distributed under the MIT License. See LICENSE for details.
 
 📬 Contact
 Assadbari@gmail.com
+saw210@pitt.edu
+arx4@pitt.edu
+ehx1@pitt.edu
+
 
 
 Project Link: GitHub Repo
