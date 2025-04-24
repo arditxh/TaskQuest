@@ -42,11 +42,6 @@ Node.js (optional, for Firebase CLI)
 Installation
 Clone the repo:
 
-bash
-git clone https://github.com/yourusername/TaskMaster.git  
-cd TaskMaster  
-Set up Firebase:
-
 
 
 
