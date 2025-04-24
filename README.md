@@ -47,19 +47,9 @@ git clone https://github.com/yourusername/TaskMaster.git
 cd TaskMaster  
 Set up Firebase:
 
-Create a Firebase project and enable Firestore + Authentication.
 
-Add your Firebase config in static/js/firebase-config.js.
 
-Install Python dependencies:
 
-bash
-pip install -r requirements.txt  
-Run the Flask app:
-
-bash
-python app.py  
-Open http://localhost:5000 in your browser.
 
 📸 Screenshots
 ![image](https://github.com/user-attachments/assets/b7b3949a-470d-416c-ab16-8b39ace5cca6)
