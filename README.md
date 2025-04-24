@@ -62,7 +62,8 @@ python app.py
 Open http://localhost:5000 in your browser.
 
 📸 Screenshots
-(Add screenshots of the UI here, e.g., task list, XP progress bar.)
+![image](https://github.com/user-attachments/assets/b7b3949a-470d-416c-ab16-8b39ace5cca6)
+
 
 🤝 Contributing
 We welcome contributions! Follow these steps:
