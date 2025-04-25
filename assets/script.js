@@ -429,7 +429,8 @@ noteTitleEl.addEventListener("input", saveNote);
 noteContentEl.addEventListener("input", saveNote);
 
 /* ------------------------ FAB BEHAVIOR ------------------------ */
-const fab = document.getElementById("fab");
+const fab = document.querySelector(".fab");
+
 fab.addEventListener("click", () => {
   const activePage = pages.find((p) =>
     document.getElementById(p + "Page").classList.contains("active")
