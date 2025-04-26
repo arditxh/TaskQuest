@@ -84,7 +84,4 @@ ehx1@pitt.edu
 
 
 
-
-Project Link: GitHub Repo
-
 🛠️ Happy Tasking! 🎉
