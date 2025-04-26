@@ -74,12 +74,13 @@ ehx1@pitt.edu
 
 ## 📁 Project Structure
 
-| File/Folder            | Description                                                                 |
-|-------------------------|-----------------------------------------------------------------------------|
-| `index.html`             | Main HTML structure of the TaskQuest app, including modal and sidebar layout. |
-| `assets/styles.css`      | Custom CSS styling for layout, theming (light/dark), modal, and gamification UI. |
-| `assets/script.js`       | JavaScript logic for task management, Firebase authentication, UI rendering, and CRUD operations. |
-| `README.md`              | Project overview, setup instructions, and credits.                         |
+| File/Folder             | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| `index.html`              | Main HTML structure of the TaskQuest app, including modals and sidebar layout. |
+| `assets/styles.css`       | Custom CSS styling for layout, theming (light/dark), modal, and gamification UI. |
+| `assets/script.js`        | JavaScript logic for task management, Firebase authentication, UI rendering, and CRUD operations. |
+| `main_app.py`             | Flask backend that handles user authentication (login/signup) using the Firebase Admin SDK. |
+| `README.md`               | Project overview, setup instructions, and credits.                          |
 
 
 
